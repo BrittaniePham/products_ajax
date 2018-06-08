@@ -1,2 +1,6 @@
 @import 'materialize';
-@import 'welcome';
+
+.game-item {
+  cursor: pointer;
+  color: blue;
+}
