@@ -1,6 +1,6 @@
 function getProduct(id) {
   $.ajax({
-    url: '/products/' + id,
+    url: 'http://json-server.devpointlabs.com/api/v1/products/' + id,
     type: 'GET'
   }).done( function(product) {
       $('product-list').append(product)
@@ -23,7 +23,7 @@ $(document).ready( function() {
   });
 
   //Create an html form that you submit with ajax to create a new product (POST)
-  $(document).on('click', '#addProductButton', function(e) {
+  $('#form').on('submit', function(e) {
     e.preventDefault()
     var data = $(this).serializeArray();
     $.ajax({
@@ -32,14 +32,48 @@ $(document).ready( function() {
       datatype: 'JSON',
       data: data
     }).done( function(newProduct) {
-      newProduct = '<li class="product-item" data-id="' + product.id + '" data-name="' + data.name + '">' + product.name + '-' + product.name + '</li>';
-      $('#product-list').append(product)
+      newProduct = '<li class="product-item" data-id="' + newProduct.id + '" data-name="' + newProduct.name + '">' + newProduct.name + '</li>';
+      $('#product-list').append(newProduct)
     })
   })
-})
 
-  // $('.product-item').on('click', function() {
-  // })
+  //list all info about a single product
+  $(document).on('click', '.product-item', function() {
+    var currentProduct = {}
+    currentProduct.id = this.dataset.id
+    currentProduct.name = this.dataset.name
+    currentProduct.base_price = this.dataset.base_price
+    currentProduct.description = this.dataset.description
+    currentProduct.quantity_on_hand = this.dataset.quantity_on_hand
+    currentProduct.color = this.dataset.color
+    currentProduct.weight = this.dataset.weight
+    currentProduct.other_attributes = this.dataset.name
+    debugger
+    $.ajax({
+      url: 'http://json-server.devpointlabs.com/api/v1/products/' + currentProduct.id,
+      method: 'GET',
+      datatype: 'JSON'
+    }).done( function(product) {
+      $('#title').text('Product Info: ' + currentProduct.name)
+      var list = $('#product-info');
+      list.empty();
+      var li = '<li data-product-id="' + product.id + '">' + 'Name: ' + product.name + '<br /> Price: $' + product.base_price + '<br />Description: ' + product.description + '<br />Color: ' + product.color + '</li>';
+      list.append(li)
+    })
+  })
+
+  $(document).on('click', '.delete', function() {
+    var id = $(this).closest('li').data().id;
+    $.ajax({
+      url: 'http://json-server.devpointlabs.com/api/v1/products/id',
+      type: 'DELETE'
+    }).done(function() {
+      getProduct();
+    }).fail(function(err) {
+      alert('Could not delete');
+    });
+  })
+})
 
   //Ability to update a product (PUT)
   //Ability to delete a product (DELETE)

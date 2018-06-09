@@ -1,19 +1,26 @@
 <h2>Products</h2>
 <hr />
 
-<div id="form" class="container">
-  <input type="text" id="name" placeholder="name"/>
-  <input type="text" id="base_price" placeholder="base price"/>
-  <input type="text" id="description" placeholder="description"/>
-  <input type="text" id="quantity_on_hand" placeholder="quantity on hand"/>
-  <input type="text" id="color" placeholder="color"/>
-  
-  <input type="button" value="add a product" id="addProductButton"/>
+<div class="container">
+  <form action="" id="form">
+    <input type="text" id="name" name=product[name] placeholder="name" require=true/>
+    <input type="text" id="base_price" name=product[base_price] placeholder="base price"/>
+    <input type="text" id="description" name=product[description] placeholder="description"/>
+    <input type="text" id="color" name=product[color] placeholder="color"/>
+    
+    <button class='btn' type='submit'>submit</button>
+  </form>
 </div>
 
 <div class="row">
   <div class="col s12 m6">
     <ul id="product-list">
+    </ul>
+  </div>
+
+  <div class="row" id="proudct-info-list">
+    <h3 id='title'>Product Info</h2>
+    <ul id="product-info">
     </ul>
   </div>
 </div>
