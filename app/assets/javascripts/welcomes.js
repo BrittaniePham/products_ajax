@@ -23,11 +23,23 @@ $(document).ready( function() {
   });
 
   //Create an html form that you submit with ajax to create a new product (POST)
-
+  $(document).on('click', '#addProductButton', function(e) {
+    e.preventDefault()
+    var data = $(this).serializeArray();
+    $.ajax({
+      url: 'http://json-server.devpointlabs.com/api/v1/products',
+      type: 'POST',
+      datatype: 'JSON',
+      data: data
+    }).done( function(newProduct) {
+      newProduct = '<li class="product-item" data-id="' + product.id + '" data-name="' + data.name + '">' + product.name + '-' + product.name + '</li>';
+      $('#product-list').append(product)
+    })
+  })
+})
 
   // $('.product-item').on('click', function() {
   // })
 
   //Ability to update a product (PUT)
   //Ability to delete a product (DELETE)
-})
